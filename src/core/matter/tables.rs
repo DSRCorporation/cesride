@@ -128,7 +128,7 @@ pub enum Codex {
 }
 
 impl Codex {
-    pub(crate) fn code(&self) -> &'static str {
+    pub fn code(&self) -> &'static str {
         match self {
             Codex::Ed25519_Seed => "A", // Ed25519 256 bit random seed for private key
             Codex::Ed25519N => "B", // Ed25519 verification key non-transferable, basic derivation.

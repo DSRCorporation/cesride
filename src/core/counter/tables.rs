@@ -1,14 +1,14 @@
 use crate::error::{err, Error, Result};
 
 #[derive(Debug, PartialEq)]
-pub(crate) struct Sizage {
+pub struct Sizage {
     pub hs: u32,
     pub ss: u32,
     pub ls: u32,
     pub fs: u32,
 }
 
-pub(crate) fn sizage(s: &str) -> Result<Sizage> {
+pub fn sizage(s: &str) -> Result<Sizage> {
     Ok(match s {
         "-A" => Sizage { hs: 2, ss: 2, fs: 4, ls: 0 },
         "-B" => Sizage { hs: 2, ss: 2, fs: 4, ls: 0 },
@@ -80,7 +80,7 @@ pub enum Codex {
 }
 
 impl Codex {
-    pub(crate) fn code(&self) -> &'static str {
+    pub fn code(&self) -> &'static str {
         match self {
             Codex::ControllerIdxSigs => "-A", // Qualified Base64 Indexed Signature.
             Codex::WitnessIdxSigs => "-B",    // Qualified Base64 Indexed Signature.
@@ -100,7 +100,7 @@ impl Codex {
         }
     }
 
-    pub(crate) fn from_code(code: &str) -> Result<Self> {
+    pub fn from_code(code: &str) -> Result<Self> {
         Ok(match code {
             "-A" => Codex::ControllerIdxSigs,
             "-B" => Codex::WitnessIdxSigs,

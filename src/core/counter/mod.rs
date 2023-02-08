@@ -1,15 +1,21 @@
 pub mod tables;
 
 use crate::core::util;
+use crate::counter::Sizage;
 use crate::error::{err, Error, Result};
+use crate::counter::sizage;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct Counter {
     pub(crate) code: String,
     pub(crate) count: u32,
 }
 
 impl Counter {
+    pub fn new(code: &str, count: u32) -> Counter {
+        Counter { code: code.to_string(), count }
+    }
+
     pub fn new_with_code_and_count_b64(code: &str, count_b64: &str) -> Result<Counter> {
         let count = if count_b64.is_empty() { 1_u32 } else { util::b64_to_u32(count_b64)? };
 
@@ -281,6 +287,10 @@ impl Counter {
 
         Ok(())
     }
+
+    pub fn sizage(&self) -> Result<Sizage> {
+        sizage(&self.code)
+    }
 }
 
 impl Default for Counter {
@@ -370,12 +380,12 @@ mod counter_tests {
             counter::Codex::BigAttachedMaterialQuadlets.code(),
             1024,
         )
-        .unwrap();
+            .unwrap();
         let counter2 = Counter::new_with_code_and_count_b64(
             counter::Codex::BigAttachedMaterialQuadlets.code(),
             "QA",
         )
-        .unwrap();
+            .unwrap();
         let counter3 = Counter::new_with_qb64(qsc).unwrap();
         let counter4 = Counter::new_with_qb64b(qscb).unwrap();
         let counter5 = Counter::new_with_qb2(qscb2).unwrap();
@@ -449,17 +459,17 @@ mod counter_tests {
         assert!(Counter::new_with_code_and_count("", 1).is_err());
         assert!(Counter::new_with_code_and_count(
             counter::Codex::ControllerIdxSigs.code(),
-            64 * 64
+            64 * 64,
         )
-        .is_err());
+            .is_err());
         assert!(Counter::sem_ver_str_to_b64("1.2.3.4").is_err());
         assert!(Counter::sem_ver_str_to_b64("bad.semantic.version").is_err());
         assert!((Counter {
             code: counter::Codex::ControllerIdxSigs.code().to_string(),
-            count: 64 * 64
+            count: 64 * 64,
         })
-        .qb64()
-        .is_err());
+            .qb64()
+            .is_err());
         assert!(Counter::new_with_qb64("").is_err());
         assert!(Counter::new_with_qb64("--").is_err());
         assert!(Counter::new_with_qb64("__").is_err());
