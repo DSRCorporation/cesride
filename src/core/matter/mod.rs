@@ -10,9 +10,9 @@ pub mod tables;
 #[cfg_attr(feature = "python", pyclass)]
 #[derive(Debug, Clone)]
 pub struct Matter {
-    pub(crate) raw: Vec<u8>,
-    pub(crate) code: String,
-    pub(crate) size: u32,
+    pub raw: Vec<u8>,
+    pub code: String,
+    pub size: u32,
 }
 
 impl Matter {
