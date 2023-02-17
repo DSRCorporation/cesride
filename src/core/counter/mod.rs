@@ -1,6 +1,8 @@
 pub mod tables;
 
 use crate::core::util;
+use crate::counter::sizage;
+use crate::counter::Sizage;
 use crate::error::{err, Error, Result};
 
 #[derive(Debug, Clone, PartialEq)]
@@ -10,6 +12,10 @@ pub struct Counter {
 }
 
 impl Counter {
+    pub fn new(code: &str, count: u32) -> Counter {
+        Counter { code: code.to_string(), count }
+    }
+
     pub fn new_with_code_and_count_b64(code: &str, count_b64: &str) -> Result<Counter> {
         let count = if count_b64.is_empty() { 1_u32 } else { util::b64_to_u32(count_b64)? };
 
@@ -280,6 +286,10 @@ impl Counter {
         self.count = count;
 
         Ok(())
+    }
+
+    pub fn sizage(&self) -> Result<Sizage> {
+        sizage(&self.code)
     }
 }
 

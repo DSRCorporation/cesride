@@ -457,6 +457,16 @@ pub trait Matter: Default {
 
         Ok(())
     }
+
+    fn full_size(&self) -> Result<u32> {
+        let sizes = tables::sizage(&self.code())?;
+        if sizes.fs != 0 {
+            Ok(sizes.fs)
+        } else {
+            let fs = sizes.hs + sizes.ss + (self.size() * 4);
+            Ok(fs)
+        }
+    }
 }
 
 #[cfg(test)]

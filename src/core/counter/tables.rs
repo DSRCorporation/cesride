@@ -1,14 +1,14 @@
 use crate::error::{err, Error, Result};
 
 #[derive(Debug, PartialEq)]
-pub(crate) struct Sizage {
+pub struct Sizage {
     pub hs: u32,
     pub ss: u32,
     pub ls: u32,
     pub fs: u32,
 }
 
-pub(crate) fn sizage(s: &str) -> Result<Sizage> {
+pub fn sizage(s: &str) -> Result<Sizage> {
     Ok(match s {
         "-A" => Sizage { hs: 2, ss: 2, fs: 4, ls: 0 },
         "-B" => Sizage { hs: 2, ss: 2, fs: 4, ls: 0 },
